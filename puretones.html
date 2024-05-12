@@ -369,14 +369,21 @@ University Bat Lab, June 2018. The series begins at 10 kHz, which is
 near the lower end of <em>Euderma maculatum</em>’s call. It continues in
 increments of 10 kHz (i.e. 10 kHz, 20 kHz, 30 khz, …) and ends at 100
 kHz, which is near the upper end of <em>Myotis californicus</em>’s call.
-Each tone is is 10 ms in duration, which is within the range of call
+Each tone is 10 ms in duration, which is within the range of call
 durations from the aforementioned pdf.</p>
 <pre class="r"><code>library(seewave)</code></pre>
 <p>Create files</p>
-<p>Settings: Pure tones in sequence (in Khz): 10, 20, 30, 40, 50, 60,
-70, 80, 90, 100 Sine waves Fade-in &amp; Fade-out = None Sample rate =
-250 kHz Bit depth = 16 (PCM) Duration = 0.19 sec (10 msec per tone, 10
-msec silent interval between signals)</p>
+<ul>
+<li>Settings:</li>
+<li>Pure tones in sequence (in Khz): 10, 20, 30, 40, 50, 60, 70, 80, 90,
+100</li>
+<li>Sine waves</li>
+<li>Fade-in &amp; Fade-out = None</li>
+<li>Sample rate = 250 kHz</li>
+<li>Bit depth = 16 (PCM)</li>
+<li>Duration = 0.19 sec (10 msec per tone, 10 msec silent interval
+between signals)</li>
+</ul>
 <pre class="r"><code>kHz_10 &lt;- synth(f = 250000,
                 cf = 10000,
                 d = 0.01,

@@ -22,13 +22,13 @@ library(seewave)
 
 Create files
 
-Settings:
-Pure tones in sequence (in Khz): 10, 20, 30, 40, 50, 60, 70, 80, 90, 100. 
-Sine waves. 
-Fade-in & Fade-out = None. 
-Sample rate = 250 kHz. 
-Bit depth = 16 (PCM). 
-Duration = 0.19 sec (10 msec per tone, 10 msec silent interval between signals). 
+* Settings:
+* Pure tones in sequence (in Khz): 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+* Sine waves
+* Fade-in & Fade-out = None
+* Sample rate = 250 kHz
+* Bit depth = 16 (PCM)
+* Duration = 0.19 sec (10 msec per tone, 10 msec silent interval between signals)
 
 ```{r tone}
 
