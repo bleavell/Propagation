@@ -1,0 +1,40 @@
+---
+title: "concatenating audio files"
+author: "Brian C Leavell"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Concatenating audio files
+
+Goal: Concatenate various audio files produced from separate markdown files
+
+```{r packages}
+library(seewave)
+library(tuneR)
+```
+* Audio files needed:
+  + 100to10kHz_fmtone.wav
+  + puretones.wav
+
+```{r concatenate}
+fmsweep <- readWave("100to10kHz_fmtone.wav")
+puretones <- readWave("puretones.wav")
+playback_stimuli <- pastew(fmsweep, puretones, output = "Wave")
+savewav(playback_stimuli, filename = "playback_stimuli.wav") #final file save as .wav
+```
+
+## Oscillogram
+``` {r oscillo}
+oscillo(playback_stimuli)
+```
+
+## Spectrogram
+``` {r spectrogram}
+spectro(playback_stimuli, wl = 128, ovlp = 75, tlim = c(0,0.2))
+spectro(playback_stimuli, wl = 128, ovlp = 75, tlim = c(0.68,0.7))
+```
