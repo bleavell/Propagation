@@ -13,18 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Goal: Generate 5 pure tones as single .wav file.
 
-Details: This creates a series of pure (i.e. no frequency or amplitude modulation) sinusoidal tones that are based off the range of echolocation frequencies of species listed in the pdf "WesternUS_Acoustic_Table_Mar2011" by Joe Szewczak, Humboldt State University Bat Lab, June 2018. The signals include:  
-10 khz (e.g. *Euderma maculatum*)
-20 kHz (e.g. )
-30 khz (e.g. **)
-40 khz (e.g. **)
-50 khz (e.g. **)
-60 khz (e.g. **)
-70 khz (e.g. **)
-80 khz (e.g. **)
-90 khz (e.g. **)
-100 khz (e.g. **). 
-The series begins at 10 kHz, which is near the lower end of *Euderma maculatum*'s call and ends at 100 kHz, which is near the upper end of *Myotis californicus*'s call. Each tone is is 10 ms in duration, which is within the range of call durations from the aforementioned pdf.
+Details: This creates a series of pure (i.e. no frequency or amplitude modulation) sinusoidal tones that are based off the range of echolocation frequencies of species listed in the pdf "WesternUS_Acoustic_Table_Mar2011" by Joe Szewczak, Humboldt State University Bat Lab, June 2018. The series begins at 10 kHz, which is near the lower end of *Euderma maculatum*'s call. It continues in increments of 10 kHz (i.e. 10 kHz, 20 kHz, 30 khz, ...) and ends at 100 kHz, which is near the upper end of *Myotis californicus*'s call. Each tone is is 10 ms in duration, which is within the range of call durations from the aforementioned pdf.
 
 
 ```{r packages}
@@ -34,54 +23,118 @@ library(seewave)
 Create files
 
 Settings:
-Pure tones in sequence: 10 kHz, 35 kHz, 50 kHz
+Pure tones in sequence (in Khz): 10, 20, 30, 40, 50, 60, 70, 80, 90, 100
 Sine waves
-Fade-in & Fade-out = 10 msec
-Sample rate = 192 kHz
+Fade-in & Fade-out = None
+Sample rate = 250 kHz
 Bit depth = 16 (PCM)
-Duration = 1 second per tone, 0.5 second intervals (4.5 seconds total file duration)
+Duration = 0.19 sec (10 msec per tone, 10 msec silent interval between signals)
 
 ```{r tone}
-#10 kHz tone
-kHz_10 <- synth(f = 192000,
+
+kHz_10 <- synth(f = 250000,
                 cf = 10000,
-                d = 1,
+                d = 0.01,
                 a = 1,
                 signal = "sine",
                 output = "Wave"
                 )
 
-kHz_35 <- synth(f = 192000,
-                cf = 35000,
-                d = 1,
+kHz_20 <- synth(f = 250000,
+                cf = 20000,
+                d = 0.01,
                 a = 1,
                 signal = "sine",
                 output = "Wave"
                 )
 
-kHz_50 <- synth(f = 192000,
+kHz_30 <- synth(f = 250000,
+                cf = 30000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
+
+kHz_40 <- synth(f = 250000,
+                cf = 40000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
+
+kHz_50 <- synth(f = 250000,
                 cf = 50000,
-                d = 1,
+                d = 0.01,
                 a = 1,
                 signal = "sine",
                 output = "Wave"
                 )
 
-# 10 msec fade in and fade out
-kHz_10 <- fadew(kHz_10, din = 0.010, dout = 0.010, shape = "exp", output = "Wave") 
-kHz_35 <- fadew(kHz_35, din = 0.010, dout = 0.010, shape = "exp", output = "Wave")
-kHz_50 <- fadew(kHz_50, din = 0.010, dout = 0.010, shape = "exp", output = "Wave")
+kHz_60 <- synth(f = 250000,
+                cf = 60000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
 
-#Add silence to each file
-kHz_10 <- addsilw(kHz_10, at = "end", d = 0.5, output = "Wave")
-kHz_35 <- addsilw(kHz_35, at = "end", d = 0.5, output = "Wave")
-kHz_50 <- addsilw(kHz_50, at = "end", d = 0.5, output = "Wave")
+kHz_70 <- synth(f = 250000,
+                cf = 70000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
+
+kHz_80 <- synth(f = 250000,
+                cf = 80000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
+
+kHz_90 <- synth(f = 250000,
+                cf = 90000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
+
+kHz_100 <- synth(f = 250000,
+                cf = 100000,
+                d = 0.01,
+                a = 1,
+                signal = "sine",
+                output = "Wave"
+                )
+
+#Add silence to each file (except kHz_100 since it is last)
+kHz_10 <- addsilw(kHz_10, at = "end", d = 0.01, output = "Wave")
+kHz_20 <- addsilw(kHz_20, at = "end", d = 0.01, output = "Wave")
+kHz_30 <- addsilw(kHz_30, at = "end", d = 0.01, output = "Wave")
+kHz_40 <- addsilw(kHz_40, at = "end", d = 0.01, output = "Wave")
+kHz_50 <- addsilw(kHz_50, at = "end", d = 0.01, output = "Wave")
+kHz_60 <- addsilw(kHz_60, at = "end", d = 0.01, output = "Wave")
+kHz_70 <- addsilw(kHz_70, at = "end", d = 0.01, output = "Wave")
+kHz_80 <- addsilw(kHz_80, at = "end", d = 0.01, output = "Wave")
+kHz_90 <- addsilw(kHz_90, at = "end", d = 0.01, output = "Wave")
 
 #Join audio files
-a <- pastew(kHz_35, kHz_10, output = "Wave")
-puretones <- pastew(kHz_50, a, output = "Wave")
+a <- pastew(kHz_20, kHz_10, output = "Wave")
+b <- pastew(kHz_30, a, output = "Wave")
+c <- pastew(kHz_40, b, output = "Wave")
+d <- pastew(kHz_50, c, output = "Wave")
+e <- pastew(kHz_60, d, output = "Wave")
+f <- pastew(kHz_70, e, output = "Wave")
+g <- pastew(kHz_80, f, output = "Wave")
+h <- pastew(kHz_90, g, output = "Wave")
+puretones <- pastew(kHz_100, h, output = "Wave")
 
-savewav(puretones, filename = "puretones_10_35_50kHz.wav") #final file save as .wav
+savewav(puretones, filename = "puretones.wav") #final file save as .wav
 ```
 
 ## Oscillogram
