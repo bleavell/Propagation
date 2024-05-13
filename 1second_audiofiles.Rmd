@@ -1,0 +1,101 @@
+---
+title: "1sec_audiofiles"
+author: "Brian C Leavell"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Trim/append silence to ensure that audio files are each 1 second in duration
+
+Goal: Ensure that various audio files produced from separate markdown files and pre-existing echolocation audio files are each 1 second in duration (to standardize playback of files for propagation experiment). Additionally, standardize peak intensity (normalize) of all files.
+
+Details: 
+
+```{r packages}
+library(seewave)
+library(tuneR)
+```
+* Audio files needed:
+  + 100to10kHz_fmtone.wav
+  + puretones.wav
+  + CF_1.wav
+  + CF_2.wav
+  + FM_1.wav
+  + FM_2.wav
+  + Synthetic.wav
+
+Note: the last 5 files listed above are those used in Barber et al. 2022
+
+```{r trim_or_add_silence}
+fmsweep <- readWave("100to10kHz_fmtone.wav")
+duration(fmsweep) #1sec
+
+puretones <- readWave("puretones.wav")
+duration(puretones) #0.19 sec
+puretones <- addsilw(puretones, at = "end", d = 0.81, output = "Wave")
+duration(puretones) #1sec
+
+cf_1 <- readWave("CF_1.wav")
+duration(cf_1) 
+oscillo(cf_1)
+cf_1 <- cutw(cf_1, from=0, to=1, output="Wave")
+duration(cf_1) 
+oscillo(cf_1)
+
+cf_2 <- readWave("CF_2.wav")
+duration(cf_2) 
+oscillo(cf_2)
+cf_2 <- cutw(cf_2, from=0, to=1, output="Wave")
+duration(cf_2) 
+oscillo(cf_2)
+
+fm_1 <- readWave("FM_1.wav")
+duration(fm_1) 
+oscillo(fm_1)
+fm_1 <- cutw(fm_1, from=0, to=1, output="Wave")
+duration(fm_1) 
+oscillo(fm_1)
+
+fm_2 <- readWave("FM_2.wav")
+duration(fm_2) 
+oscillo(fm_2)
+fm_2 <- cutw(fm_2, from=0, to=1, output="Wave")
+duration(fm_2) 
+oscillo(fm_2)
+
+synthetic <- readWave("Synthetic.wav")
+duration(synthetic) 
+oscillo(synthetic)
+synthetic <- cutw(synthetic, from=0, to=1, output="Wave")
+duration(synthetic) 
+oscillo(synthetic)
+```
+
+## Normalize
+``` {r normalize}
+fmsweep <- normalize(fmsweep, unit = "16", rescale = TRUE)
+puretones <- normalize(puretones, unit = "16", rescale = TRUE)
+cf_1 <- normalize(cf_1, unit = "16", rescale = TRUE)
+cf_2 <- normalize(cf_2, unit = "16", rescale = TRUE)
+fm_1 <- normalize(fm_1, unit = "16", rescale = TRUE)
+fm_2 <- normalize(fm_2, unit = "16", rescale = TRUE)
+synthetic <- normalize(synthetic, unit = "16", rescale = TRUE)
+```
+
+## Save .wav files
+``` {r save_wavs}
+#final file save as .wav
+savewav(fmsweep, filename = "fmsweep_1sec.wav") 
+savewav(puretones, filename = "puretones_1sec.wav") 
+savewav(cf_1, filename = "cf_1_1sec.wav") 
+savewav(cf_2, filename = "cf_2_1sec.wav") 
+savewav(fm_1, filename = "fm_1_1sec.wav") 
+savewav(fm_2, filename = "fm_2_1sec.wav") 
+savewav(synthetic, filename = "synthetic_1sec.wav") 
+```
+## References
+Barber, Jesse R., et al. "Anti-bat ultrasound production in moths is globally and phylogenetically widespread." Proceedings of the National Academy of Sciences 119.25 (2022): e2117485119.

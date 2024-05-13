@@ -28,7 +28,7 @@ Sine wave
 Fade-in & Fade-out = None
 Sample rate = 250 kHz
 Bit depth = 16 (PCM)
-Duration = 1.002 seconds (0.5 sec silence -> 2 ms signal -> 0.5 sec silence)
+Duration = 1 second (2 msec signal + 998 msec silence)
 
 ```{r fmsweep}
 fmsweep <- synth(f = 250000, #sampling freq in Hz
@@ -41,25 +41,24 @@ fmsweep <- synth(f = 250000, #sampling freq in Hz
                 )
 
 #fmsweep <- fadew(fmtone, din = 0.010, dout = 0.010, shape = "exp", output = "Wave") # 10 msec fade in and fade out, included here from an earlier version in which the signal was longer in duration
-fmsweep <- addsilw(fmsweep, at = "start", d = 0.5, output = "Wave")
-fmsweep <- addsilw(fmsweep, at = "end", d = 0.5, output = "Wave")
+fmsweep <- addsilw(fmsweep, at = "end", d = 0.998, output = "Wave")
 
 savewav(fmsweep, filename = "100to10kHz_fmtone.wav") #final file save as .wav
 ```
 
 ## Oscillogram
 ``` {r oscillo}
-oscillo(fmsweep, from = 0.500, to =0.502)
+oscillo(fmsweep, from = 0, to =0.002)
 ```
 
 ## Power spectrum
 ``` {r powerspec}
-meanspec(fmsweep,  wl = 256, ovlp = 75, from = 0.498, to =0.504)
+meanspec(fmsweep,  wl = 256, ovlp = 75, from = 0.000, to =0.002)
 ```
 
 ## Spectrogram
 ``` {r spectrogram}
-spectro(fmsweep,  wl = 128, ovlp = 75, tlim = c(0.498,0.504))
+spectro(fmsweep,  wl = 128, ovlp = 75, tlim = c(0.000,0.002))
 ```
 
 ##References
